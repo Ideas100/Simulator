@@ -1,0 +1,93 @@
+= Text-based Arduino simulation
+
+The goal of this project is to simulate the functionalities of Arduino
+Uno using c++. I believe this helps beginners getting started with
+their Arduino projects. This project is to simulate the fewer
+functionalities of the Arduino Uno. The code which is used to program Arduino can be used to check or simulate with minor modifications.
+
+Let's see the build, design, functionalities, and their limitations.
+
+== Build
+
+This project requires ncurses development headers. In Debian / Ubuntu,
+install dependencies will be shown below.,
+
+------
+# apt-get install libncurses5-dev
+------
+
+To build, an environmental variable namely FILEPATH has to be
+set and exported.
+
+Note: Environment variable is case sensitive.
+
+------
+$ export FILEPATH=<filename>
+$ make
+$ make compile
+------
+
+== Design
+ 
+This project has code.c inbuild. The Arduino code will be written here
+only. Normally the Arduino code consists of two functions namely setup()
+and loop(). This file (code.c) seems as close as the Arduino code.
+
+During Compilation code.c is copied to a .cpp during built.
+------
+            copied
+     code.c ------> main.cpp
+------
+This is made to look slightly similar to that of the Arduino code. The output
+file will be 'run'
+
+== Functionality & Usage
+
+This project has fewer functionalities mentioned below.,
+------
+ - delay --------------> not depends on objects, just a function
+ - pinMode ---------|    
+ - digitalRead -----| 
+ - digitalWrite-----|--> depends on objects of Gpio. 
+ - analogRead ------|  
+ - analogWrite -----|
+------
+
+The pin number is based on the objects that were predefined.
+------
+* For digital pins - d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13.
+* For analog pins  - a0, a1, a2, a3, a4, a5.
+------
+Each function should have objects of the pin number that were declared.
+
+* Arduino version : pinMode(pin_no, mode)
+* Our version     : obj.pinmode(pin_no, mode)
+
+For example:
+
+* Arduino version : pinMode(10, HIGH)
+* Our version     : d10.pinMode(10, HIGH)
+
+While performing digitalRead and analogRead functions it requires user input. These user inputs are predefined with respective buttons. Hints of the buttons will be displayed while running. [ explore buttons in gpio.h ].
+
+== Limitations
+
+* This project is a simple tool and may differ from the hardware output.
+* Running more than 4 inputs pins is not recommended, Hence lead to a slower response to buttons.
+
+== Example run.
+
+This project consists of examples of code in the test directory. This tested code is a modified version of Arduino examples.
+
+------
+$ export FILEPATH=test/blink.c
+$ make
+$ make compile
+$ ./run
+------
+
+== Output
+
+image::doc/simulate_test.jpg[width=400]
+
+Feel free to try out your code..!
